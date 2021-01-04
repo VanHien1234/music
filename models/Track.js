@@ -10,6 +10,7 @@ const SongSchema = new Schema({
   album: {
     type: Schema.Types.ObjectId,
     ref: "Album",
+    required: false,
   },
   artist: {
     type: Schema.Types.ObjectId,
@@ -21,6 +22,10 @@ const SongSchema = new Schema({
   fileName: {
     type: String,
   },
+  createdate:{
+    type: Date,
+    default: mongoose.now
+  }
 });
 
 module.exports = mongoose.model("Track", SongSchema);

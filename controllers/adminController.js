@@ -45,9 +45,9 @@ exports.removeArtist = (req,res,next) => {
 };
 
 exports.updateArtist = (res,req,next) =>{
-  var artistId =  req.params.id;
+  const artistId =  req.params.id;
 
-  Artist.findByIdAndUpdate(artistId, req.body)
+   Artist.findByIdAndUpdate(artistId, req.body)
   
   .then(doc =>{
     if(!doc) {return res.status(404).end();}

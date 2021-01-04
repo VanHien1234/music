@@ -81,7 +81,7 @@ exports.onLogin = (req, res, next) => {
        
       );
 
-      res.status(200).json(token);
+      res.status(200).json(token, "dntc");
     })
     .catch((err) => {
       if (!err.statusCode) {
@@ -98,7 +98,7 @@ exports.onLogin = (req, res, next) => {
 exports.onViewProfile = (req, res, next) => {
   const userId = req.userId;
   User.findById(userId)
- 
+    .populate('playlist')
     .select("-password")
     .then((result) => {
       res.status(200).json(result);

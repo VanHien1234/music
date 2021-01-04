@@ -58,9 +58,9 @@ router.delete("/play-list/:id", auth, userController.removePlaylist);
 
 //kt dang nhap
 router.use("/", (req, res, next) => {
-  const newErr = Error("vui long dang nhap");
+  const newErr = Error("vui long dang nhap de su dung tai nguyen ");
   newErr.statusCode = 403;
-  next(newErr);
+ // next(newErr);
 });
 
 module.exports = router;

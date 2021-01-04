@@ -11,7 +11,14 @@ const Track = require("../models/Track");
 exports.allArtist = (req, res, next) => {
   Artist.find({})
 
-
+    .populate({
+      path : 'albums',
+      populate: {
+        path : 'tracks',
+        model : 'Track'
+      }  
+    })
+    
     .then((artist) => {
       res.status(200).json(artist);
     })
@@ -38,8 +45,10 @@ exports.getAlbumsByArtis = (req, res, next) => {
 exports.allAlbums = (req, res, next) => {
    
   Album.find({})
+    .populate('tracks')
     .populate('artist','name')
     .then((albums) => {
+      console.log(albums)
       res.status(200).json(albums);
     })
     .catch((err) => {
@@ -49,7 +58,7 @@ exports.allAlbums = (req, res, next) => {
 
 exports.topAlbums = (req, res, next) => {
   Album.find({
-    genres: { $in: ["rock", "pop", "rap", "folk"] },
+    genres: { $in: ["rock", "pop", "Rap", "chill"] },
   })
 
     .then((albums) => {
@@ -63,7 +72,7 @@ exports.topAlbums = (req, res, next) => {
 exports.getAlbumDetails = (req, res, next) => {
   const albumId = req.params.id;
   Album.findById(albumId)
-    .populate('artist')
+    .populate('artist','name')
 
     .then((album) => {
       res.status(200).json(album);
@@ -80,7 +89,8 @@ exports.getAlbumDetails = (req, res, next) => {
 
 exports.allTracks = (req, res, next) => {
   Track.find({})
-    .populate('artist','name')
+    .populate('artist', 'name')
+    .populate('album', 'name')
     .then((tracks) => {
       res.status(200).json(tracks);
     })
@@ -93,7 +103,8 @@ exports.allTracks = (req, res, next) => {
 exports.getTrackDetails = (req, res, next) => {
   const trackId = req.params.id;
   Track.findById(trackId)
-
+  .populate('artist', 'name')
+  .populate('album', 'name')
     .then((track) => {
       res.status(200).json(track);
     })

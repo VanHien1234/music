@@ -22,7 +22,7 @@ app.use(bodyParser.json({ extended: false }));
 app.use(cors());
 app.use(cookieParser());
 app.use("/musicDATA", express.static(path.join(__dirname, "musicDATA")));
-app.use("/s", express.static(path.join(__dirname, "artworks")));
+app.use("/imageDATA", express.static(path.join(__dirname, "imageDATA")));
 
 app.use("/admin", adminRoutes);
 app.use("/user", userRoutes);
@@ -43,7 +43,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then((result) => {
-    const PORT = process.env.PORT ||3000
+    const PORT = process.env.PORT ||5000
     app.listen(PORT);
   })
   .catch((err) => console.log(err));

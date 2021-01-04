@@ -20,6 +20,10 @@ const ArtistSchema = new Schema({
   image: {
     type: String,
   },
+  createdate:{
+    type: Date,
+    default: mongoose.now
+  }
 
 });
 

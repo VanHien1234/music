@@ -14,17 +14,23 @@ const AlbumSchema = new Schema({
   image: {
     type: String,
   },
-  tracks: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Track",
-    },
+  tracks: [{
+       
+    type : mongoose.Schema.Types.ObjectId,
+    ref: "Track",
+ 
+  }
+ 
   ],
   artist: {
     type: Schema.Types.ObjectId,
     ref: "Artist",
     
   },
+  createdate:{
+    type: Date,
+    default: mongoose.now
+  }
 });
 
 AlbumSchema.methods.addTrack = function (track) {
