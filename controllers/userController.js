@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
+const { APP_KEY } = require("../configs/appConst");
 
 const User = require("../models/user");
 const Track = require("../models/Track");
 
-/**
- * Public Access
- */
+  //Public Access
+ 
 exports.onSignup = (req, res, next) => {
   const errors = validationResult(req);
 
@@ -28,6 +28,7 @@ exports.onSignup = (req, res, next) => {
         email: email,
         name: name,
         password: hashPassword,
+        phone: null,
         playlist: [],
       });
 
@@ -62,7 +63,7 @@ exports.onLogin = (req, res, next) => {
   User.findOne({ email: email })
     .then((user) => {
       if (!user) {
-        const err = new Error("nguoi dung khong ton tai");
+        const err = new Error("khong ton tai email ID");
         err.statusCode = 401;
         throw err;
       }
@@ -71,17 +72,18 @@ exports.onLogin = (req, res, next) => {
     })
     .then((result) => {
       if (!result) {
-        const err = new Error(" sai Passwod!");
+        const err = new Error("password khong dung !");
         err.statusCode = 401;
         throw err;
       }
 
       const token = jwt.sign(
         { userId: loginUser._id.toString(), email: loginUser.email },
-       
+        APP_KEY,
+        { expiresIn: "1d" }
       );
 
-      res.status(200).json(token, "dntc");
+      res.status(200).json(token);
     })
     .catch((err) => {
       if (!err.statusCode) {
@@ -91,14 +93,21 @@ exports.onLogin = (req, res, next) => {
     });
 };
 
+exports.logout = (req, res , next)=>{
+  res.cookie('jwt', '',{maxAge: 1});
+  res.redirect('/')
+  
+}
 
- // Private Access
+
+ //Private Access
  
 
 exports.onViewProfile = (req, res, next) => {
   const userId = req.userId;
   User.findById(userId)
-    .populate('playlist')
+    
+    .populate("playlist")
     .select("-password")
     .then((result) => {
       res.status(200).json(result);
@@ -114,7 +123,7 @@ exports.onViewProfile = (req, res, next) => {
 exports.viewPlaylist = (req, res, next) => {
   const userId = req.userId;
   User.findById(userId)
-    
+    .populate("playlist")
     .then((movies) => {
       res.json(movies.playlist);
     })
@@ -132,7 +141,7 @@ exports.addToPlaylist = (req, res, next) => {
   const trackId = req.params.id;
   let currentUser;
   User.findById(userId)
-   
+    .populate("playlist")
     .then((user) => {
       currentUser = user;
       return Track.findById(trackId);
@@ -157,7 +166,7 @@ exports.removePlaylist = (req, res, next) => {
   const userId = req.userId;
   const trackId = req.params.id;
   User.findById(userId)
-   
+    .populate("playlist")
     .then((user) => {
       user.playlist.remove(trackId);
       return user.save();

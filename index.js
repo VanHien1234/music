@@ -9,7 +9,7 @@ var mongoose = require("mongoose");
 /**
  * Middlewares
  */
-const sourceAuth = require("./middlewares/sourceCheck");
+
 /**
  * Routes
  */

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-
+const { APP_KEY } = require("../configs/appConst");
 
 module.exports = (req, res, next) => {
   const authorization = req.get("Authorization");
@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
   let decodedToken;
 
   try {
-    decodedToken = jwt.verify(token, "music");
+    decodedToken = jwt.verify(token, APP_KEY);
   } catch (err) {
     err.statusCode = 500;
     throw err;
