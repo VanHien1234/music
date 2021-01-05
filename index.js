@@ -5,14 +5,8 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 
-
-/**
- * Middlewares
- */
-
-/**
- * Routes
- */
+  //Routes
+ 
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const musicRoutes = require("./routes/musicRoutes");
