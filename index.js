@@ -10,6 +10,7 @@ var mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const musicRoutes = require("./routes/musicRoutes");
+const Artist = require("./models/Artist");
 
 const app = express();
 app.use(bodyParser.json({ extended: false }));
@@ -21,6 +22,14 @@ app.use("/imageDATA", express.static(path.join(__dirname, "imageDATA")));
 app.use("/admin", adminRoutes);
 app.use("/user", userRoutes);
 app.use("/music",  musicRoutes);
+app.get("/search/:keyword", function(res,req) 
+{
+  var regex = new RegExp(req.query.keyword,'i');
+  Artist.find({regex})
+  .then((result) =>{
+    res.status(200).json(result)
+  })
+})
 
 app.use((error, req, res, next) => {
   console.log(error);

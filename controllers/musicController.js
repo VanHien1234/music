@@ -114,6 +114,7 @@ exports.getTrackDetails = (req, res, next) => {
     });
 };
 
+
 exports.playTrack = async (req, res, next) => {
   const trackId = req.params.id;
 
@@ -136,3 +137,15 @@ exports.playTrack = async (req, res, next) => {
 }
 
 
+exports.genreTrack =(req,res) =>{
+  const text=req.params.id;
+  Track.find({ genre : text  })
+  .then((track) => {
+    console.log(track) 
+    res.status(200).json(track);
+  })
+  .catch((err) => {
+    err.statusCode = 500;
+    
+  });
+};

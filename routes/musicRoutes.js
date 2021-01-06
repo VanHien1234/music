@@ -18,6 +18,7 @@ router.get("/album/:id",  musicController.getAlbumDetails);
 router.get("/track", musicController.allTracks);
 router.get("/track/:id", musicController.getTrackDetails);
 router.get("/play/:id", musicController.playTrack);
+router.get("/genre/:id",musicController.genreTrack);
 
 router.use("/",  musicController.topAlbums);
 
