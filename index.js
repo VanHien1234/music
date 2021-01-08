@@ -22,14 +22,15 @@ app.use("/imageDATA", express.static(path.join(__dirname, "imageDATA")));
 app.use("/admin", adminRoutes);
 app.use("/user", userRoutes);
 app.use("/music",  musicRoutes);
-app.get("/search/:keyword", function(res,req) 
+app.get('/search', (res,req) => 
 {
-  var regex = new RegExp(req.query.keyword,'i');
+  var q = req.query.q;
+  var regex = new RegExp(keyword);
   Artist.find({regex})
   .then((result) =>{
     res.status(200).json(result)
   })
-})
+});
 
 app.use((error, req, res, next) => {
   console.log(error);

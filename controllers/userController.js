@@ -80,10 +80,10 @@ exports.onLogin = (req, res, next) => {
       const token = jwt.sign(
         { userId: loginUser._id.toString(), email: loginUser.email },
         APP_KEY,
-        { expiresIn: "1d" }
+        { expiresIn: "1d" } 
       );
 
-      res.status(200).json(token);
+      res.status(200).json({token,userId: loginUser._id,name:loginUser.name,email:loginUser.email}); 
     })
     .catch((err) => {
       if (!err.statusCode) {
@@ -111,6 +111,7 @@ exports.onViewProfile = (req, res, next) => {
     .select("-password")
     .then((result) => {
       res.status(200).json(result);
+      console.log(result)
     })
     .catch((err) => {
       if (!err.statusCode) {
