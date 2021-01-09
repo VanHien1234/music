@@ -78,12 +78,12 @@ exports.onLogin = (req, res, next) => {
       }
 
       const token = jwt.sign(
-        { userId: loginUser._id.toString(), email: loginUser.email },
+        { userId: loginUser._id.toString(), email: loginUser.email , Role: loginUser.role},
         APP_KEY,
         { expiresIn: "1d" } 
       );
 
-      res.status(200).json({token,userId: loginUser._id,name:loginUser.name,email:loginUser.email}); 
+      res.status(200).json({token,userId: loginUser._id,name:loginUser.name,email:loginUser.email,role : loginUser.role}); 
     })
     .catch((err) => {
       if (!err.statusCode) {

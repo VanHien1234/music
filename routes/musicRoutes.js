@@ -1,9 +1,10 @@
 const express = require("express");
-
 const router = express.Router();
+const {login,admin} = require("../middlewares/authCheck");
+
 
 const musicController = require("../controllers/musicController");
-const auth = require("../middlewares/authCheck");
+
 
 
 // ALL Artist list

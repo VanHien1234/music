@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { body } = require("express-validator");
 const userController = require("../controllers/userController");
-const auth = require("../middlewares/authCheck");
+const {login,admin} = require("../middlewares/authCheck");
 const User = require("../models/user");
 
 
@@ -47,14 +47,14 @@ router.post(
 router.post("/forgot", userController.onForgotPassword);
 
 //View Profiles
-router.get("/profile", auth, userController.onViewProfile);
+router.get("/profile", login, userController.onViewProfile);
  
 
-router.get("/play-list", auth, userController.viewPlaylist);
+router.get("/play-list", login, userController.viewPlaylist);
 
-router.put("/play-list/:id", auth, userController.addToPlaylist);
+router.put("/play-list/:id", login, userController.addToPlaylist);
 
-router.delete("/play-list/:id", auth, userController.removePlaylist);
+router.delete("/play-list/:id", login, userController.removePlaylist);
 
 //kt dang nhap
 router.use("/", (req, res, next) => {

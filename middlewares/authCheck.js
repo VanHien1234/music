@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
 const { APP_KEY } = require("../configs/appConst");
 
-module.exports = (req, res, next) => {
+exports.login = (req, res, next) => {
   const authorization = req.get("Authorization");
+  
   if (!authorization) {
     const err = new Error("Authorization error");
     err.statusCode = 401;
@@ -26,5 +27,18 @@ module.exports = (req, res, next) => {
   }
 
   req.userId = decodedToken.userId;
+  req.Role = decodedToken.Role;
+  
   next();
+};
+
+exports.admin = (req,res,next) =>{
+  //console.log(req.Role)
+  if( req.Role === 'admin' ){
+    next()
+    
+}  else{
+  res.status(401).send("Ban ko co quyen truy cap!");
+}
+
 };

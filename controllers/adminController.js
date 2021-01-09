@@ -44,14 +44,14 @@ exports.removeArtist = (req,res,next) => {
 
 };
 
-exports.updateArtist = (res,req,next) =>{
+exports.updateArtist = (res,req,next) =>{  
   const artistId =  req.params.id;
 
-   Artist.findByIdAndUpdate(artistId, req.body)
+   Artist.findByIdAndUpdate( artistId , req.body)
   
-  .then(doc =>{
-    if(!doc) {return res.status(404).end();}
-    return res.status(200).json(doc);
+  .then((artist) =>{
+    if(!artist) {return res.status(404).end();}
+    return res.status(200).json(artist);
   })
   .catch(err => next(err));
  
@@ -93,68 +93,6 @@ exports.newAlbum = (req, res, next) => {
 
 
 //TRACK
-
-/*
-exports.newTrack = (req, res, next) => {
-  const {
-    albumId,
-    name,
-    genreId,
-    artworkImage,
-    fileName,
-  } = req.body;
-  let currentAlbum;
-  let currentGenre;
-  Album.findById(albumId)
-  
-    .then((album) => {
-      currentAlbum = album;
-      
-      const track = new Track({
-        name: name,
-        
-        album: album,
-        artist: album.artist,
-        artworkImage: artworkImage,
-        fileName: fileName,
-      });
-      
-      return track.save();
-    })
- 
-    .then((track) => {
-      return currentAlbum.addTrack(track);
-    })
-    .then((result) => {
-      res.status(200).json(result);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(503).json(err);
-    });
-};
-*/
- //Genre 
- 
-
- exports.newGenre = (req, res, next) => {
-  const { name, image } = req.body;
-  const genre = new Genre({
-    name: name,
-    albums: [],
-    image: image,
-   
-  });
-  genre
-    .save()
-    .then((result) => {
-      res.status(200).json(result);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(502).json(err);
-    });
-};
 
 
 
@@ -198,24 +136,3 @@ exports.newTrack = (req, res, next) => {
 };
 
 
-/*
-
-
-Genre.findById(genreId)   
-    .then((genre) =>{
-      currentGenre = genre;
-      const track = new Track({
-        genre: genre,
-      })
-      return track.save();
-    })
-
-
-    const track = new Track({
-      name: name,
-      genre: genre,
-      album: album,
-      artist: album.artist,
-      artworkImage: artworkImage,
-      fileName: fileName,
-      */

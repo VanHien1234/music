@@ -25,8 +25,22 @@ const UserSchema = new Schema({
   createdate:{
     type: Date,
     default: mongoose.now
+  },
+  role:{
+    type : String,
+    default : "User",
   }
  
 });
+
+UserSchema.methods.GroupAdmin = function(checkRole){
+  if(checkRole === "ADMIN"){
+      return true;
+  } else {
+      return false;
+
+  };
+
+};
 
 module.exports = mongoose.model("User", UserSchema);
