@@ -8,14 +8,17 @@ const Track = require("../models/Track");
 
 
 exports.newArtist = (req, res, next) => {
-  const { name, genres, image } = req.body;
+  const { name, genres } = req.body;
   const artist = new Artist({
     name: name,
     genres: genres,
     albums: [],
-    image: image,
+    
    
   });
+  if(req.file){
+    artist.image = req.file.path
+  }
   artist
     .save()
     .then((result) => {

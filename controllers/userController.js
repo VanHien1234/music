@@ -19,7 +19,7 @@ exports.onSignup = (req, res, next) => {
     throw err;
   }
 
-  const { email, password, name } = req.body;
+  const { email, password, name, role } = req.body;
 
   bcrypt
     .hash(password, 12)
@@ -28,14 +28,19 @@ exports.onSignup = (req, res, next) => {
         email: email,
         name: name,
         password: hashPassword,
-        phone: null,
+        role: role,
         playlist: [],
+        
       });
+      if(role !='admin'){
+         role === 'User'
+      };
 
       return user.save();
     })
     .then((result) => {
-      res.status(201).json({ msg: "dang ky thanh cong!", userId: result._id });
+      
+      res.status(201).json({ msg: "dang ky thanh cong!", userId: result._id, role: result.role });
     })
     .catch((err) => {
       if (!err.statusCode) {
