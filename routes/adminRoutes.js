@@ -16,7 +16,7 @@ router.use(upload())
 //router.post("/login");
 router.post("/artist",login,admin,upimg, adminController.newArtist);
 router.post("/album",login,admin,upimg, adminController.newAlbum);
-router.post("/track",upimg,upmusic, adminController.newTrack);
+router.post("/track",login,admin,upimg,upmusic, adminController.newTrack);
 router.delete("/deleteArtist/:id",login,admin, adminController.removeArtist);
 router.put("/updateArtist", adminController.updateArtist);
 
