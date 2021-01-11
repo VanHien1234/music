@@ -46,7 +46,7 @@ exports.allAlbums = (req, res, next) => {
    
   Album.find({})
     .populate('tracks')
-    .populate('artist','name')
+    .populate('artist')
     .then((albums) => {
       console.log(albums)
       res.status(200).json(albums);
@@ -72,7 +72,7 @@ exports.topAlbums = (req, res, next) => {
 exports.getAlbumDetails = (req, res, next) => {
   const albumId = req.params.id;
   Album.findById(albumId)
-    .populate('artist','name')
+    .populate('artist')
     .populate('tracks')
     .then((album) => {
       res.status(200).json(album);
@@ -89,8 +89,8 @@ exports.getAlbumDetails = (req, res, next) => {
 
 exports.allTracks = (req, res, next) => {
   Track.find({})
-    .populate('artist', 'name')
-    .populate('album', 'name')
+    .populate('artist')
+    .populate('album')
     .then((tracks) => {
       res.status(200).json(tracks);
     })

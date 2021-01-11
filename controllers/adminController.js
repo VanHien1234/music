@@ -65,8 +65,9 @@ console.log(artistId)
 
 
 exports.newAlbum = (req, res, next) => {
-  const { artistId, name, genres, image } = req.body;
-  console.log('artistID:',artistId);
+  const { artistId, name, genre } = req.body;
+  console.log(req.files.image.name)
+  let pathimg = req.files.image.name
   let currentArtist;
   Artist.findById(artistId)
     .then((artist) => {
@@ -74,20 +75,22 @@ exports.newAlbum = (req, res, next) => {
       console.log('Artist:',currentArtist);
       let album = new Album({
         name: name,
-        genres: genres,
-        image: image,
+        genre: genre,
+        image: pathimg,
         tracks: [],
         artist: artist,
         
       });
       return album.save();
     })
+    
+    .then((album) => {
+      res.status(200).json(album);
+    })
     .then((album) => {
       return currentArtist.addAlbum(album);
     })
-    .then((result) => {
-      res.status(200).json(result);
-    })
+
     .catch((err) => {
       console.log(err);
       res.status(503).json(err);
@@ -122,17 +125,18 @@ exports.newTrack = (req, res, next) => {
           image: pathimg,
           fileName: pathmusic,
         })
-        return track.save();
+         return track.save();
         
     })
-      
-    .then((track) => {
-      return currentAlbum.addTrack(track);
      
-    })
+    
     
     .then((result) => {
       res.status(200).json(result);
+    })
+    .then((track) => {
+      return currentAlbum.addTrack(track);
+     
     })
     .catch((err) => {
       console.log(err);

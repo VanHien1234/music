@@ -8,7 +8,7 @@ const AlbumSchema = new Schema({
     type: String,
     required: true,
   },
-  genres: {
+  genre: {
     type: String,
   },
   image: {

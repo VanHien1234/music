@@ -23,13 +23,34 @@ app.use("/imageDATA", express.static(path.join(__dirname, "imageDATA")));
 app.use("/admin", adminRoutes);
 app.use("/user", userRoutes);
 app.use("/music",  musicRoutes);
-app.get('/search', (res,req) => 
+app.get('/search', async (res,req) => 
 {
-  let searchResult = await Artist.find({ "record.name": { $regex: "con", $options: "i" } })
-  .then((searchResult) =>{
-    res.status(200).json(searchResult)
-  })
+  let searchResult = await Artist.find({ "name": { $regex: req.query.name , $options: "i" } })
+  res.status(200).json(searchResult)
 });
+  /*const keyword = req.body
+  console.log(keyword)
+  let searchResult = await Artist.find({ "name": { $regex: keyword , $options: "i" } })
+  res.status(200).json(searchResult)
+  
+  var q = req.query.q
+  console.log(q)
+  Artist.find({
+    name :{
+      $regex : new RegExp(q)
+    } 
+  }, {
+    _id: 0,
+    __v: 0
+  }, function(err,data){
+    res.json(data);
+  }).limit(10);
+  
+  
+  
+  
+  */
+
 
 app.use((error, req, res, next) => {
   console.log(error);
