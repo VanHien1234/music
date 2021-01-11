@@ -73,7 +73,7 @@ exports.getAlbumDetails = (req, res, next) => {
   const albumId = req.params.id;
   Album.findById(albumId)
     .populate('artist','name')
-
+    .populate('tracks')
     .then((album) => {
       res.status(200).json(album);
     })
@@ -103,8 +103,8 @@ exports.allTracks = (req, res, next) => {
 exports.getTrackDetails = (req, res, next) => {
   const trackId = req.params.id;
   Track.findById(trackId)
-  .populate('artist', 'name')
-  .populate('album', 'name')
+  .populate('artist')
+  .populate('album')
     .then((track) => {
       res.status(200).json(track);
     })

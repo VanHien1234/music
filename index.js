@@ -25,11 +25,9 @@ app.use("/user", userRoutes);
 app.use("/music",  musicRoutes);
 app.get('/search', (res,req) => 
 {
-  var q = req.query.q;
-  var regex = new RegExp(keyword);
-  Artist.find({regex})
-  .then((result) =>{
-    res.status(200).json(result)
+  let searchResult = await Artist.find({ "record.name": { $regex: "con", $options: "i" } })
+  .then((searchResult) =>{
+    res.status(200).json(searchResult)
   })
 });
 
@@ -48,7 +46,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then((result) => {
-    const PORT = process.env.PORT ||5000
+    const PORT = 3000
     app.listen(PORT);
   })
   .catch((err) => console.log(err));
@@ -56,6 +54,7 @@ var db = mongoose.connection;
 db.on('error', function(err) {
   if (err) console.log(err)
 });
+
 
 db.once('open', function() {
   console.log("Kết nối DB thành công !");

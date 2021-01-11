@@ -9,16 +9,16 @@ const Track = require("../models/Track");
 
 exports.newArtist = (req, res, next) => {
   const { name, genres } = req.body;
+  console.log(req.files.image.name);
+  let pathimg = req.files.image.name;
   const artist = new Artist({
     name: name,
     genres: genres,
     albums: [],
-    
+    image : pathimg
    
   });
-  if(req.file){
-    artist.image = req.file.path
-  }
+  
   artist
     .save()
     .then((result) => {
@@ -48,8 +48,8 @@ exports.removeArtist = (req,res,next) => {
 };
 
 exports.updateArtist = (res,req,next) =>{  
-  const artistId =  req.params.id;
-
+  const artistId =  req.query.id;
+console.log(artistId)
    Artist.findByIdAndUpdate( artistId , req.body)
   
   .then((artist) =>{
@@ -104,11 +104,13 @@ exports.newTrack = (req, res, next) => {
   const {
     albumId,
     name,
-    genre,
-    artworkImage,
-    fileName,
+    genre
+    
   } = req.body;
   let currentAlbum;
+  console.log(req.files.image.name);
+  let pathimg = req.files.image.name;
+  let pathmusic =req.files.fileName.name
   Album.findById(albumId)
     .then((album) => {
       currentAlbum = album;
@@ -117,8 +119,8 @@ exports.newTrack = (req, res, next) => {
           genre: genre,
           album: album,
           artist: album.artist,
-          artworkImage: artworkImage,
-          fileName: fileName,
+          image: pathimg,
+          fileName: pathmusic,
         })
         return track.save();
         

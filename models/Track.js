@@ -20,7 +20,7 @@ const SongSchema = new Schema({
     type: String,
 
   },
-  artworkImage: {
+  image: {
     type: String,
   },
   fileName: {
